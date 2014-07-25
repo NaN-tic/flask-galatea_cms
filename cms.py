@@ -5,7 +5,7 @@ cms = Blueprint('cms', __name__, template_folder='templates')
 
 Article = tryton.pool.get('galatea.cms.article')
 
-galatea_website = current_app.config.get('TRYTON_GALATEA_SITE')
+GALATEA_WEBSITE = current_app.config.get('TRYTON_GALATEA_SITE')
 
 @cms.route("/<slug>", endpoint="article")
 @tryton.transaction()
@@ -14,7 +14,7 @@ def article(lang, slug):
     articles = Article.search([
         ('slug', '=', slug),
         ('active', '=', True),
-        ('galatea_website', '=', galatea_website),
+        ('galatea_website', '=', GALATEA_WEBSITE),
         ], limit=1)
 
     if not articles:
