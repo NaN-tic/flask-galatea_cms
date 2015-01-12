@@ -22,5 +22,4 @@ def article(lang, slug):
     article, = articles
     return render_template('cms-article.html',
             article=article,
-            cache_prefix='cms-article-%s-%s' % (article.id, lang),
             )
