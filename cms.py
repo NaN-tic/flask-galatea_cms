@@ -19,6 +19,8 @@ def _visibility():
 @tryton.transaction()
 def article(lang, slug):
     '''Article detaill'''
+    website = Website(GALATEA_WEBSITE)
+
     articles = Article.search([
         ('slug', '=', slug),
         ('active', '=', True),
@@ -31,4 +33,5 @@ def article(lang, slug):
     article, = articles
     return render_template('cms-article.html',
             article=article,
+            website=website,
             )
