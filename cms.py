@@ -3,6 +3,7 @@ from galatea.tryton import tryton
 
 cms = Blueprint('cms', __name__, template_folder='templates')
 
+Website = tryton.pool.get('galatea.website')
 Article = tryton.pool.get('galatea.cms.article')
 
 GALATEA_WEBSITE = current_app.config.get('TRYTON_GALATEA_SITE')
