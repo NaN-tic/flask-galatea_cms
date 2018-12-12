@@ -26,7 +26,7 @@ def article(lang, slug):
         ('slug', '=', slug),
         ('active', '=', True),
         ('visibility', 'in', _visibility()),
-        ('galatea_website', '=', GALATEA_WEBSITE),
+        ('websites', 'in', [GALATEA_WEBSITE]),
         ], limit=1)
 
     if not articles:
