@@ -8,6 +8,7 @@ Article = tryton.pool.get('galatea.cms.article')
 
 GALATEA_WEBSITE = current_app.config.get('TRYTON_GALATEA_SITE')
 
+
 def _visibility():
     visibility = ['public']
     if session.get('logged_in'):
