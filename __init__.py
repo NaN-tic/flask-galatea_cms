@@ -1,2 +1,1 @@
-from cms import *
-
+from .cms import *
