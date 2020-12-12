@@ -22,12 +22,16 @@ def article(lang, slug):
     '''Article detaill'''
     website = Website(GALATEA_WEBSITE)
 
-    articles = Article.search([
+    domain = [
         ('slug', '=', slug),
         ('active', '=', True),
         ('visibility', 'in', _visibility()),
-        ('websites', 'in', [GALATEA_WEBSITE]),
-        ], limit=1)
+        ]
+    if hasattr(Article, 'websites'):
+        domain.append(('websites', 'in', [GALATEA_WEBSITE]))
+    else:
+        domain.append(('galatea_website', '=', GALATEA_WEBSITE))
+    articles = Article.search(domain, limit=1)
 
     if not articles:
         abort(404)
