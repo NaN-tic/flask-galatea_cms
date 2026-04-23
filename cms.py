@@ -1,12 +1,10 @@
 from flask import Blueprint, render_template, current_app, abort, session
-from galatea.tryton import tryton
+from app_extensions import tryton
 
 cms = Blueprint('cms', __name__, template_folder='templates')
 
-Website = tryton.pool.get('galatea.website')
-Article = tryton.pool.get('galatea.cms.article')
-
-GALATEA_WEBSITE = current_app.config.get('TRYTON_GALATEA_SITE')
+def _galatea_website():
+    return current_app.config.get('TRYTON_GALATEA_SITE')
 
 def _visibility():
     visibility = ['public']
@@ -20,7 +18,11 @@ def _visibility():
 @tryton.transaction()
 def article(lang, slug):
     '''Article detaill'''
-    website = Website(GALATEA_WEBSITE)
+    Website = tryton.pool.get('galatea.website')
+    Article = tryton.pool.get('galatea.cms.article')
+    galatea_website = _galatea_website()
+
+    website = Website(galatea_website)
 
     domain = [
         ('slug', '=', slug),
@@ -28,9 +30,9 @@ def article(lang, slug):
         ('visibility', 'in', _visibility()),
         ]
     if hasattr(Article, 'websites'):
-        domain.append(('websites', 'in', [GALATEA_WEBSITE]))
+        domain.append(('websites', 'in', [galatea_website]))
     else:
-        domain.append(('galatea_website', '=', GALATEA_WEBSITE))
+        domain.append(('galatea_website', '=', galatea_website))
     articles = Article.search(domain, limit=1)
 
     if not articles:
